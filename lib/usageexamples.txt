@@ -1,0 +1,79 @@
+
+    Import the classes.
+
+    import jd2xx.JD2XX;
+    import jd2xx.JD2XXInputStream;
+    import jd2xx.JD2XXOutputStream;
+
+    Create a JD2XX object. It will attempt to load FTDI's ftd2xx DLL so it must be in your PATH.
+
+    JD2XX jd = new JD2XX();
+
+    List devices by serial number.
+
+    Object[] devs = jd.listDevicesBySerialNumber();
+    for (int i=0; i<devs.length; ++i)
+      System.out.println(devs[i]);
+
+    List devices by description.
+
+    devs = jd.listDevicesByDescription();
+    for (int i=0; i<devs.length; ++i)
+      System.out.println(devs[i]);
+
+    List devices by port location.
+
+    devs = jd.listDevicesByLocation();
+    for (int i=0; i<devs.length; ++i)
+      System.out.println(
+        Integer.toHexString((Integer)devs[i])
+      );
+
+    Open a device using its index.
+
+    jd.open(0);
+
+    Configure thy device.
+
+    jd.setBaudRate(38400);
+    jd.setDataCharacteristics(
+      8, JD2XX.STOP_BITS_1, JD2XX.PARITY_NONE
+    );
+    jd.setFlowControl(
+      JD2XX.FLOW_NONE, 0, 0
+    );
+    jd.setTimeouts(1000, 1000);
+
+    Send a message.
+
+    String msg = "Hello Duke.";
+    msg += "The message is 'Fiat experimentum in corpore vili'";
+    int ret = jd.write(msg.getBytes());
+    System.out.println(ret + " bytes sent.");
+
+    Receive data.
+
+    byte[] rd = jd.read(10);
+    System.out.println(new String(rd));
+
+    Read device configuration EEPROM.
+
+    ProgramData pd = jd.eeRead();
+    System.out.println(pd.toString());
+
+    Java dudes do it with streams.
+
+    JD2XXInputStream ins = new JD2XXInputStream(jd);
+    JD2XXOutputStream outs = new JD2XXOutputStream(jd);
+    ...
+    byte[] data = new byte[DATA_SIZE];
+    int ret = ins.read(data);
+    data = processData(data);
+    outs.write(data);
+
+    Finally, be polite.
+
+    ins.close();
+    outs.jd2xx.close();
+    outs.close();
+

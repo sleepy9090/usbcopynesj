@@ -1,12 +1,10 @@
 package usbcopynesj.gui;
 
-import java.awt.Dialog;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import usbcopynesj.info.NESInfo;
+import usbcopynesj.system.Power;
 
 /**
  * USB CopyNES Main GUI
@@ -47,10 +45,11 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
         runPluginButton = new javax.swing.JButton();
         vrcTunerButton = new javax.swing.JButton();
         splitUNIFButton = new javax.swing.JButton();
-        nesInfoButton = new javax.swing.JButton();
+        nesResetButton = new javax.swing.JButton();
         playRegdumpButton = new javax.swing.JButton();
         fixGARButton = new javax.swing.JButton();
         reconnectUSBButton = new javax.swing.JButton();
+        nesInfoButton = new javax.swing.JButton();
         commandsLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -60,7 +59,7 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("USB CopyNES Java Client");
-        setName("frameUSBCopyNESMain");
+        setName("frameUSBCopyNESMain"); // NOI18N
         setResizable(false);
 
         commandsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -102,10 +101,10 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
 
         splitUNIFButton.setText("Split .UNIF");
 
-        nesInfoButton.setText("NES Info");
-        nesInfoButton.addActionListener(new java.awt.event.ActionListener() {
+        nesResetButton.setText("NES Reset");
+        nesResetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nesInfoButtonActionPerformed(evt);
+                nesResetButtonActionPerformed(evt);
             }
         });
 
@@ -115,39 +114,51 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
 
         reconnectUSBButton.setText("Reconnect USB");
 
+        nesInfoButton.setText("NES Info");
+        nesInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nesInfoButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout commandsPanelLayout = new javax.swing.GroupLayout(commandsPanel);
         commandsPanel.setLayout(commandsPanelLayout);
         commandsPanelLayout.setHorizontalGroup(
             commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, commandsPanelLayout.createSequentialGroup()
+            .addGroup(commandsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(breakBanksButton, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                    .addComponent(playCartButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dumpCartButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bankWatchButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(makeNESButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(makeUNIFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(disassembleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(microbugButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(writeWRAMButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ranCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(splitNESButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(optionsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(playNSFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(runPluginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(reconnectUSBButton))
+                    .addGroup(commandsPanelLayout.createSequentialGroup()
+                        .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(breakBanksButton, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(playCartButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dumpCartButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bankWatchButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(makeNESButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(makeUNIFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(disassembleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(microbugButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(writeWRAMButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ranCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(splitNESButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(optionsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(playNSFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(runPluginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(reconnectUSBButton)))
+                    .addGroup(commandsPanelLayout.createSequentialGroup()
+                        .addComponent(nesInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nesResetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(splitUNIFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nesInfoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(playRegdumpButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(fixGARButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(vrcTunerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vrcTunerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         commandsPanelLayout.setVerticalGroup(
@@ -163,8 +174,7 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
                 .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(breakBanksButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(disassembleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(optionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nesInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(optionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,7 +193,11 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
                     .addComponent(vrcTunerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(microbugButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bankWatchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addGroup(commandsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nesInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nesResetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         commandsLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -232,8 +246,8 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(commandsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(commandsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(commandsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -257,26 +271,25 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
+    private void nesResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nesResetButtonActionPerformed
+        Power power = new Power();
+        power.resetNES();
+    }//GEN-LAST:event_nesResetButtonActionPerformed
+
     private void nesInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nesInfoButtonActionPerformed
         NESInfo nesInfo = new NESInfo();
         String nesInfoString = "";
         try {
-//            Object[] devicesBySerialNumber = nesInfo.getNesInfo();
-//            if (devicesBySerialNumber.length == 0) {
-//                showErrorMessageDialog("USB CopyNes Not Found", "Error");
-//            } else {
-//                showInformationMessageDialog("USB CopyNes Found! Device Information: " + devicesBySerialNumber[0], "Success");
-//            }
             nesInfoString = nesInfo.getNesInfo();
             
             if (nesInfoString.equals("Failed")) {
-                showErrorMessageDialog("USB CopyNes Not Found. Either 0 devices or more than 2 devices were found.", "Error");
+                showErrorMessageDialog("USB CopyNES Not Found.", "Error");
             } else {
-                showInformationMessageDialog("USB CopyNes Found! Device Information: " + nesInfoString, "Success");
+                showInformationMessageDialog("USB CopyNES Found! Device Information: " + nesInfoString, "Success");
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(USBCopyNESGUI.class.getName()).log(Level.SEVERE, null, ex);
-            showErrorMessageDialog("USB CopyNes Generic Error.", "Error");
+            showErrorMessageDialog(ex.toString(), "Error");
         }
     }//GEN-LAST:event_nesInfoButtonActionPerformed
 
@@ -355,6 +368,7 @@ public class USBCopyNESGUI extends javax.swing.JFrame {
     private javax.swing.JButton makeUNIFButton;
     private javax.swing.JButton microbugButton;
     private javax.swing.JButton nesInfoButton;
+    private javax.swing.JButton nesResetButton;
     private javax.swing.JButton optionsButton;
     private javax.swing.JButton playCartButton;
     private javax.swing.JButton playNSFButton;

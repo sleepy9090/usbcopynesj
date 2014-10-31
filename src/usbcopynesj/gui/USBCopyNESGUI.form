@@ -40,12 +40,13 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="USB CopyNES Java Client"/>
-    <Property name="name" type="java.lang.String" value="frameUSBCopyNESMain"/>
+    <Property name="name" type="java.lang.String" value="frameUSBCopyNESMain" noResource="true"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -78,8 +79,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="commandsLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="commandsPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="commandsPanel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -97,38 +98,46 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="breakBanksButton" pref="105" max="32767" attributes="0"/>
-                      <Component id="playCartButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="dumpCartButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="bankWatchButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="makeNESButton" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="makeUNIFButton" max="32767" attributes="0"/>
-                      <Component id="disassembleButton" max="32767" attributes="0"/>
-                      <Component id="microbugButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="writeWRAMButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="ranCartButton" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="splitNESButton" max="32767" attributes="0"/>
-                      <Component id="optionsButton" max="32767" attributes="0"/>
-                      <Component id="playNSFButton" max="32767" attributes="0"/>
-                      <Component id="runPluginButton" max="32767" attributes="0"/>
-                      <Component id="reconnectUSBButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="breakBanksButton" pref="105" max="32767" attributes="0"/>
+                              <Component id="playCartButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="dumpCartButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="bankWatchButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="makeNESButton" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="makeUNIFButton" max="32767" attributes="0"/>
+                              <Component id="disassembleButton" max="32767" attributes="0"/>
+                              <Component id="microbugButton" alignment="1" max="32767" attributes="0"/>
+                              <Component id="writeWRAMButton" alignment="1" max="32767" attributes="0"/>
+                              <Component id="ranCartButton" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="splitNESButton" max="32767" attributes="0"/>
+                              <Component id="optionsButton" max="32767" attributes="0"/>
+                              <Component id="playNSFButton" max="32767" attributes="0"/>
+                              <Component id="runPluginButton" max="32767" attributes="0"/>
+                              <Component id="reconnectUSBButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="nesInfoButton" min="-2" pref="112" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="nesResetButton" min="-2" pref="112" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="splitUNIFButton" max="32767" attributes="0"/>
-                      <Component id="nesInfoButton" max="32767" attributes="0"/>
                       <Component id="playRegdumpButton" max="32767" attributes="0"/>
                       <Component id="fixGARButton" max="32767" attributes="0"/>
-                      <Component id="vrcTunerButton" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                      <Component id="vrcTunerButton" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -149,7 +158,6 @@
                       <Component id="breakBanksButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="disassembleButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="optionsButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="nesInfoButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -172,7 +180,12 @@
                       <Component id="microbugButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="bankWatchButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="65" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="nesInfoButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="nesResetButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -261,12 +274,12 @@
             <Property name="text" type="java.lang.String" value="Split .UNIF"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="nesInfoButton">
+        <Component class="javax.swing.JButton" name="nesResetButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="NES Info"/>
+            <Property name="text" type="java.lang.String" value="NES Reset"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nesInfoButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nesResetButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="playRegdumpButton">
@@ -283,6 +296,14 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Reconnect USB"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="nesInfoButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="NES Info"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nesInfoButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -4,10 +4,12 @@
  */
 package usbcopynesj.info;
 
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
 import jd2xx.JD2XX;
-import jd2xx.JD2XXInputStream;
-import jd2xx.JD2XXOutputStream;
+//import purejavacomm.CommPortIdentifier;
+//import purejavacomm.SerialPort;
 /**
  *
  * @author Shawn M. Crawford
@@ -15,7 +17,109 @@ import jd2xx.JD2XXOutputStream;
  */
 public class NESInfo {
 
-    public String getNesInfo() throws IOException {
+//    private static SerialPort serialPortControl;
+//    private static SerialPort serialPortData;
+    
+    private static OutputStream outputStreamControl;
+    private static InputStream inputStreamControl;
+    private static OutputStream outputStreamData;
+    private static InputStream inputStreamData;
+    // 1. The USB CopyNES uses a USB to serial adapter (FT2232C).
+    // 2. Linux recognizes the adapter and maps it to a serial port (/dev/ttyUSB0 and /dev/ttyUSB1)
+    // 3. Each time the USB CopyNES is plugged in, the serial ports must be chowned to the user running this program (consider making a udev rule)
+    private static final String COPYNES_CONTROL_PORTNAME = "/dev/ttyUSB0";
+    private static final String COPYNES_DATA_PORTNAME = "/dev/ttyUSB1";
+    
+    private static final String CONTROL_NAME = "ttyUSB0";
+    private static final String DATA_NAME = "ttyUSB1";
+    
+    static Enumeration portList;
+//    static CommPortIdentifier portIdControl;
+//    static CommPortIdentifier portIdData;
+    static String messageString = "Hello, world!\n";
+    
+    // generic constructor
+    public NESInfo() {
+        
+    }
+
+    public String getNesInfo() throws Exception {
+//        try {
+//            portList = CommPortIdentifier.getPortIdentifiers();
+//            while (portList.hasMoreElements()) {
+//                portId = (CommPortIdentifier) portList.nextElement();
+//
+//                System.out.println("DEBUG: portId.getCurrentOwner(): " + portId.getCurrentOwner());
+//                System.out.println("DEBUG: portId.getName(): " + portId.getName());
+//                System.out.println("DEBUG: portId.getPortType(): " + portId.getPortType());
+//                if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+//                    System.out.println("DEBUG: Found a serial port.");
+//                } else if (portId.getPortType() == CommPortIdentifier.PORT_PARALLEL) {
+//                    System.out.println("DEBUG: Found a parallel port.");
+//                } else {
+//                    System.out.println("DEBUG: Should not happen.");
+//                }
+//            }
+            
+            
+//            portIdControl = CommPortIdentifier.getPortIdentifier(COPYNES_CONTROL_PORTNAME);
+//            System.out.println("DEBUG: portId.getCurrentOwner(): " + portIdControl.getCurrentOwner());
+//            System.out.println("DEBUG: portId.getName(): " + portIdControl.getName());
+//            System.out.println("DEBUG: portId.getPortType(): " + portIdControl.getPortType());
+//
+//            
+//            portIdData = CommPortIdentifier.getPortIdentifier(COPYNES_DATA_PORTNAME);
+//            System.out.println("DEBUG: portId.getCurrentOwner(): " + portIdData.getCurrentOwner());
+//            System.out.println("DEBUG: portId.getName(): " + portIdData.getName());
+//            System.out.println("DEBUG: portId.getPortType(): " + portIdData.getPortType());
+//
+//            
+//            serialPortControl = (SerialPort) portIdControl.open(CONTROL_NAME, 1000);
+//            outputStreamControl = serialPortControl.getOutputStream();
+//            inputStreamControl = serialPortControl.getInputStream();
+//            
+//            serialPortData = (SerialPort) portIdData.open(DATA_NAME, 1000);
+//            outputStreamData = serialPortData.getOutputStream();
+//            inputStreamData = serialPortData.getInputStream();
+//            
+//            serialPortControl.setSerialPortParams(9600,
+//                            SerialPort.DATABITS_8,
+//                            SerialPort.STOPBITS_1,
+//                            SerialPort.PARITY_NONE);
+//            
+//            outputStreamControl.write(messageString.getBytes());
+//            
+//            System.out.println("Data data available: " + inputStreamData.available());
+//            System.out.println("Control data available: " + inputStreamData.available());
+//            //int data = inputStreamData.read();
+//            //while(data != -1) {
+//              //do something with data...
+//              //doSomethingWithData(data);
+//                //System.out.println("DATA: " + data);
+//
+//                //data = inputStreamData.read();
+//            //}
+//            outputStreamControl.close();
+//            inputStreamControl.close();
+//            outputStreamData.close();
+//            inputStreamData.close();
+//            
+//        } catch (NoSuchPortException ex) {
+//            Logger.getLogger(NESInfo.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (PortInUseException ex) {
+//            Logger.getLogger(NESInfo.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (UnsupportedCommOperationException ex) {
+//            Logger.getLogger(NESInfo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         StringBuilder nesInfoString = new StringBuilder();
         JD2XX jd = new JD2XX();
 
@@ -27,32 +131,36 @@ public class NESInfo {
 //        for (int i=0; i<devices.length; ++i) {
 //            System.out.println("DEBUG: " + devices[i]);
 //        }
-
+        
         Object[] devicesBySerialNumber = jd.listDevicesBySerialNumber();
-        for (int i=0; i<devicesBySerialNumber.length; ++i) {
-            System.out.println("DEBUG: Serial Number: " + devicesBySerialNumber[i]);
-        }
+        int totalDevices = devicesBySerialNumber.length;
+        System.out.println("Devices found: " + totalDevices);
 
-        Object[] devicesByDescription = jd.listDevicesByDescription();
-        for (int i=0; i<devicesByDescription.length; ++i) {
-            System.out.println("DEBUG: Description: " + devicesByDescription[i]);
-        }
+        if (totalDevices == 2) {
+            String[] deviceLocations = new String[2];
 
-        Object[] devicesByLocation = jd.listDevicesByLocation();
-        for (int i=0; i<devicesByLocation.length; ++i) {
-            System.out.println("DEBUG: Location: " + devicesByLocation[i]);
-        }
+            for (int i=0; i<2; ++i) {
+                System.out.println("DEBUG: Serial Number: " + devicesBySerialNumber[i]);
+            }
 
-        if (devicesByDescription.length >= 1) {
+            Object[] devicesByDescription = jd.listDevicesByDescription();
+            for (int i=0; i<2; ++i) {
+                System.out.println("DEBUG: Description: " + devicesByDescription[i]);
+            }
+
+            Object[] devicesByLocation = jd.listDevicesByLocation();
+            for (int i=0; i<2; ++i) {
+                deviceLocations[i] = Integer.toHexString((Integer)devicesByLocation[i]);
+                System.out.println("DEBUG: Location: 0x" + deviceLocations[i]);
+            }
+
+
             for (int i=0; i<devicesByDescription.length; ++i) {
-                nesInfoString.append("\nFound " + devicesByDescription[i]);
-                nesInfoString.append(" at location " + devicesByLocation[i]); 
-                nesInfoString.append(" with serial number " + devicesBySerialNumber[i]);
+                nesInfoString.append("\nFound ").append(devicesByDescription[i]);
+                nesInfoString.append(" at location 0x").append(deviceLocations[i]); 
+                nesInfoString.append(" with serial number ").append(devicesBySerialNumber[i]);
                 nesInfoString.append(".");
             }
-        } else {
-            nesInfoString.append("Failed");
-        }
 
 //        // Debug playing around
 //        System.out.println("DEBUG: jd.getLibraryVersion(): " + jd.getLibraryVersion());
@@ -76,8 +184,13 @@ public class NESInfo {
 //        //System.out.println("DEBUG: jd.resetDevice(): " + jd.resetDevice());
 //        jd.close();
 //        // End Debug
+        } else {
+            nesInfoString.append("Failed");
+        }
 
+        jd.close();
         return nesInfoString.toString();
+//        return "";
     }
 
     
